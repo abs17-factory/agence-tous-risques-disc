@@ -371,7 +371,7 @@ td .who .ph{width:3.4rem;height:3.4rem;border-radius:50%;font-size:.35rem;flex:n
 .finale .sign{margin-top:1.6rem;font-size:1rem;color:rgba(255,255,255,.7)}
 
 /* ---------- Responsive ---------- */
-@media (max-width:1100px){
+@media screen and (max-width:1100px){
   .agenda{grid-template-columns:repeat(3,1fr)}
   .gallery{grid-template-columns:repeat(2,1fr)}
   .fgrid{grid-template-columns:repeat(2,1fr)}
@@ -380,7 +380,7 @@ td .who .ph{width:3.4rem;height:3.4rem;border-radius:50%;font-size:.35rem;flex:n
   .step:nth-child(2)::after{display:none}
   .divider .side{display:none}
 }
-@media (max-width:820px){
+@media screen and (max-width:820px){
   :root{font-size:15px}
   .topbar{height:3.2rem;background:linear-gradient(#fff 60%,rgba(255,255,255,0))}
   body.on-dark .topbar{background:linear-gradient(var(--purple-deep) 60%,rgba(34,6,42,0))}
@@ -424,21 +424,33 @@ td .who .ph{width:3.4rem;height:3.4rem;border-radius:50%;font-size:.35rem;flex:n
 
 /* ---------- Impression / export PDF ---------- */
 @media print{
+  /* Mise en page proportionnelle à la largeur du papier :
+     A4 paysage = 1 diapositive par page, A4 portrait = 2 diapositives par page. */
   @page{size:A4 landscape;margin:0}
-  :root{font-size:11.5px}
-  .cover h1 span{background:none;color:#FF8FB5;-webkit-text-fill-color:#FF8FB5}
-  html,body{height:auto;overflow:visible;background:#fff}
-  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  :root{font-size:1.024vw}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none!important;text-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  html,body{height:auto;overflow:visible;background:#fff;margin:0}
   .topbar,.nav,.hint,.progress,.toc,.toc-backdrop{display:none!important}
   .deck{position:static}
-  .slide{position:relative;inset:auto;opacity:1!important;visibility:visible!important;transform:none!important;transition:none!important;width:297mm;height:209mm;page-break-after:always;break-after:page;overflow:hidden}
+  .slide{position:relative;inset:auto;display:block;opacity:1!important;visibility:visible!important;transform:none!important;transition:none!important;
+    width:100%;height:auto;aspect-ratio:297/208;margin:0;overflow:hidden;break-inside:avoid;page-break-inside:avoid;
+    background:linear-gradient(160deg,#FDF1F6 0%,#FFFFFF 38%,#FFFFFF 70%,#FEF6F0 100%)}
+  .slide.dark{background:linear-gradient(135deg,#22062A 0%,#3A0B44 60%,#5A1250 100%)}
   .slide .rv{opacity:1!important;transform:none!important;animation:none!important}
-  .slide-inner{position:absolute;overflow:hidden;padding:12mm 14mm 10mm}
-  .pcard:hover,.ag:hover{transform:none}
-  .wheel-wrap{width:118mm}
-  .cover h1{font-size:4.6rem}
+  .slide-inner{position:absolute;inset:0;overflow:hidden;padding:3.8rem 4.5rem 3.1rem}
+  .wrap{max-width:none}
+  .pcard:hover,.ag:hover,.pcard:hover img{transform:none}
+  /* Dégradés appliqués au texte : couleurs pleines, plus sûres à l’impression */
+  .cover h1 span,.finale blockquote em{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#FF8FB5;-webkit-text-fill-color:#FF8FB5}
+  .divider .big,.ag .n{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#F07A3A;-webkit-text-fill-color:#F07A3A}
+  .cover h1{font-size:4.8rem}
   .divider .big{font-size:11rem}
-  .finale blockquote{font-size:3.8rem}
+  .divider h2{font-size:3.4rem}
+  .finale blockquote{font-size:3.9rem}
+  .wheel-wrap{width:37rem;height:37rem}
+  .team .hero{min-height:0}
+  .table-wrap{overflow:visible}
+  table{min-width:0}
 }
 @media (prefers-reduced-motion:reduce){
   .slide,.slide .rv{transition:none!important;animation:none!important;opacity:1;transform:none}
